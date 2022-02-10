@@ -6,22 +6,19 @@
 #         self.right = right
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        # check that root is valid
-        if not root:
-            return None
-        # initialize queue for bfs
-        bfs_queue = collections.deque([root])
-        # bfs on Tree -> swap children and then add children to queue
-        while bfs_queue:
-            curr_node = bfs_queue.popleft()
-            # swap children
-            temp = curr_node.left
-            curr_node.left = curr_node.right
-            curr_node.right = temp
-            
-            # add children to queue
-            if curr_node.left:
-                bfs_queue.append(curr_node.left)
-            if curr_node.right:
-                bfs_queue.append(curr_node.right)
+        # bfs iterative
+        return self.bfsIterative(root)
+        # dfs iterative
+        # dfs recursive
+    def bfsIterative(self, root):
+        # create queue
+        queue = collections.deque([root])
+        # bfs swap -> checking that current node is valid
+        while queue:
+            node = queue.popleft()
+            if node:
+                # I have to do this on the same line so I don't lose it
+                node.left, node.right = node.right, node.left
+                queue.append(node.left)
+                queue.append(node.right)
         return root
