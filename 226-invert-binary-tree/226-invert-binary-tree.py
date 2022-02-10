@@ -9,8 +9,10 @@ class Solution:
         # bfs iterative
         # return self.bfsIterative(root)
         # dfs iterative
-        return self.dfsIterative(root)
+        # return self.dfsIterative(root)
         # dfs recursive
+        return self.dfsRecursive(root)
+    
     def bfsIterative(self, root):
         # create queue
         queue = collections.deque([root])
@@ -33,4 +35,9 @@ class Solution:
                 node.left, node.right = node.right, node.left
                 stack.append(node.left)
                 stack.append(node.right)
+        return root
+    
+    def dfsRecursive(self, root):
+        if root:
+            root.left, root.right = self.dfsRecursive(root.right), self.dfsRecursive(root.left)
         return root
