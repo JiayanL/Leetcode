@@ -7,8 +7,9 @@
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         # bfs iterative
-        return self.bfsIterative(root)
+        # return self.bfsIterative(root)
         # dfs iterative
+        return self.dfsIterative(root)
         # dfs recursive
     def bfsIterative(self, root):
         # create queue
@@ -21,4 +22,15 @@ class Solution:
                 node.left, node.right = node.right, node.left
                 queue.append(node.left)
                 queue.append(node.right)
+        return root
+    
+    def dfsIterative(self, root):
+        stack = [root]
+        
+        while stack:
+            node = stack.pop()
+            if node:
+                node.left, node.right = node.right, node.left
+                stack.append(node.left)
+                stack.append(node.right)
         return root
