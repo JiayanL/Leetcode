@@ -14,7 +14,7 @@ class Solution:
             
             # check that the basket is in range
             while len(fruits_in_basket) > 2:
-                max_fruits = max(max_fruits, i - first_tree)
+                # max_fruits = max(max_fruits, i - first_tree)
                 
                 fruits_in_basket[fruits[first_tree]] += -1
                 if fruits_in_basket[fruits[first_tree]] == 0:
@@ -22,9 +22,9 @@ class Solution:
                     
                 # decrease the left bucket by 1
                 first_tree += 1
-                
-        # just in case checker for the last case  
-        max_fruits = max(max_fruits, i - first_tree + 1)
+            max_fruits = max(max_fruits, i - first_tree + 1)
+        # just in case checker for the last case (inclusive of the last case)
+        # max_fruits = max(max_fruits, i - first_tree + 1)
         
         return max_fruits
                 
