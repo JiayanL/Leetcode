@@ -1,42 +1,50 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        # sort nums and initialize array
-        nums = sorted(nums)
+        # sort array
+        nums.sort()
         result = []
         
-        # loop through array
+        # loop through each element in the arary, skipping duplicates
         for i in range(len(nums) - 2):
-            # check to make sure the current one is not a duplicate as the previous one
-            ## also keep a check for 0th element because that won't have a predecessor
+            
+            # fastforward duplicates
             if i > 0 and nums[i] == nums[i - 1]:
                 continue
         
-        # initialize left and right pointers and move
-            left = i + 1
-            right = len(nums) - 1
-            
-            while left < right:
-                curr_num = nums[i]
-                left_num = nums[left]
-                right_num = nums[right]
-                total = curr_num + left_num + right_num
-                # attach the sum if it equals
-                if total == 0:
-                    result.append([curr_num, left_num, right_num])
-                    # move left and right pointers, while avoiding duplicates
-                    while left < right and nums[left] == nums[left + 1]:
-                        left += 1
-                    while right > left and nums[right] == nums[right - 1]:
-                        right -= 1
-                    left += 1 
-                    right -= 1
-                # increment left pointer if sum is less than 0
-                elif total < 0:
-                    left += 1
+            # for each element, initialize a left and a right pointer, skipping duplicates
+            l, r = i + 1, len(nums) - 1
+        
+            while l < r:
+                    
+                # add up the three items
+                three_sum = nums[l] + nums[r] + nums[i]
 
-                # decrement right pointer if sum is greater than 0
-                elif total > 0:
-                    right -= 1
+                # if greater than 0:
+                # move the right pointer left, skipping duplicates
+                # making sure there's no overlap
+                if three_sum > 0:
+                    r -= 1
+
+                # if less than 0
+                # move the left pointer right, skipping duplicates
+                # making sure there's no overlap
+                elif three_sum < 0:
+                    l += 1
+                    
+                # if equal 0
+                # add the triplet to my results, and 
+                # the left pointer over one if possible
+                elif three_sum == 0:
+                    result.append([nums[i], nums[l], nums[r]])
+                    
+                    # move to the end of duplicates
+                    while l + 1 < r and nums[l] == nums[l + 1]:
+                        l += 1
+                    while r - 1 > l and nums[r] == nums[r - 1]:
+                        r -= 1
+                        
+                    # adjust since every k can noly have one number
+                    
+                    l += 1
+                    r -= 1
         return result
-        
-        
