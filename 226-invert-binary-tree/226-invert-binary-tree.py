@@ -10,7 +10,7 @@ class Solution:
         if solution == "dfs":
             return self.dfs(root)
         if solution == "bfs":
-            pass
+            return self.bfs(root)
         if solution == "recursive":
             return self.recursive(root)
         
@@ -30,7 +30,18 @@ class Solution:
         return root
     
     def bfs(Self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        pass
+        if root is None:
+            return root
+        queue = collections.dequeu([root])
+        
+        while queue:
+            curr = queue.popleft()
+            curr.left, curr.right = curr.right, curr.left
+            if curr.right:
+                queue.append(curr.right)
+            if curr.left:
+                queue.append(curr.left)
+        return root
     
     def recursive(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         if root:
