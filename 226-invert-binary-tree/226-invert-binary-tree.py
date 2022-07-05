@@ -6,7 +6,7 @@
 #         self.right = right
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        solution = "dfs"
+        solution = "bfs"
         if solution == "dfs":
             return self.dfs(root)
         if solution == "bfs":
@@ -32,7 +32,7 @@ class Solution:
     def bfs(Self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         if root is None:
             return root
-        queue = collections.dequeu([root])
+        queue = collections.deque([root])
         
         while queue:
             curr = queue.popleft()
