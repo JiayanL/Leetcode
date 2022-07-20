@@ -9,7 +9,7 @@ class Solution:
     
     def balancedHelper(self, root:Optional[TreeNode]):
         if not root:
-            return True, -1
+            return True, 0
         
         leftisBalanced, leftHeight = self.balancedHelper(root.left)
         if not leftisBalanced:
