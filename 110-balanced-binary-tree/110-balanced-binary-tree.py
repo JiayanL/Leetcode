@@ -5,17 +5,22 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def height(self, root: Optional[TreeNode]):
+   # bottom up solution: check if children are balanced, then use their heights to check if parent is balanced
+    
+    def balancedHelper(self, root:Optional[TreeNode]):
         if not root:
-            return -1
-        return 1 + max(self.height(root.left), self.height(root.right))
+            return True, -1
+        
+        leftisBalanced, leftHeight = self.balancedHelper(root.left)
+        if not leftisBalanced:
+            return False, 0
+        
+        rightisBalanced, rightHeight = self.balancedHelper(root.right)
+        if not rightisBalanced:
+            return False, 0
+        
+        return (abs(leftHeight - rightHeight) < 2), 1 + max(leftHeight, rightHeight)
+        
     
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        # top-down recursion: O(n * logn)
-        if not root:
-            return True
-        
-        if abs(self.height(root.left) - self.height(root.right)) < 2 and \
-        self.isBalanced(root.left) and self.isBalanced(root.right):
-            return True
-        return False
+        return self.balancedHelper(root)[0]
