@@ -6,15 +6,12 @@ class Solution:
             if i not in letters:
                 letters[i] = 0
             letters[i] += 1
-        matched = len(letters)
         
         # check letters in ransomNote
         for i in ransomNote:
             if i not in letters:
                 return False
             letters[i] -= 1
-            if letters[i] == 0:
-                matched -= 1
             if letters[i] < 0:
                 return False
         return True
