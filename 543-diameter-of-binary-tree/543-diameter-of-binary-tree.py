@@ -7,15 +7,15 @@
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         diameter = 0
-        def findDeepestRoot(node: Optional[TreeNode]):
+        def findDiameter(node: Optional[TreeNode]) -> int:
             if not node:
                 return 0
             nonlocal diameter
-            left_max = findDeepestRoot(node.left)
-            right_max = findDeepestRoot(node.right)
-            diameter = max(diameter, left_max + right_max)
-
-            return 1 + max(left_max, right_max)
-        
-        findDeepestRoot(root)
+            leftDiameter = findDiameter(node.left)
+            rightDiameter = findDiameter(node.right)
+            
+            diameter = max(diameter, leftDiameter + rightDiameter)
+            
+            return 1 + max(leftDiameter, rightDiameter)
+        findDiameter(root)
         return diameter
