@@ -1,37 +1,27 @@
 from collections import deque
 class Solution:
     def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
-        rows = len(mat)
-        if rows == 0:
-            return mat
+        # BFS solution, let's do this one in place
+        rows, columns = len(mat), len(mat[0])
+        queue = deque()
+        nextDir = [(0,1), (0,-1), (1,0), (-1,0)]
         
-        columns = len(mat[0])
-        
-        distances = [[float(inf) for _ in range(columns)] for _ in range(rows)]
-        
-        # traverse right -> down
+        # find all zeros
         for i in range(rows):
             for j in range(columns):
                 if mat[i][j] == 0:
-                    distances[i][j] = 0
+                    queue.append([i, j])
                 else:
-                    if i > 0:
-                        distances[i][j] = min(distances[i][j], distances[i - 1][j] + 1)
-                    if j > 0:
-                        distances[i][j] = min(distances[i][j], distances[i][j - 1] + 1)
-                        
-        # traverse left -> up
-        for i in range(rows - 1, -1, -1):
-            for j in range(columns - 1, -1, -1):
-                print(j)
-                if mat[i][j] == 0:
-                    distances[i][j] = 0
-                else:
-                    if i < (rows - 1):
-                        distances[i][j] = min(distances[i][j], distances[i + 1][j] + 1)
-                    if j < (columns - 1):
-                        distances[i][j] = min(distances[i][j], distances[i][j + 1] + 1)
+                    mat[i][j] = -1
             
+        # multi source BFS
+        while queue:
+            i, j = queue.popleft()
             
-        
-        return distances
+            for dI, dJ in nextDir:
+                newI, newJ = i + dI, j + dJ
+                # check that its valid and not visited
+                if 0 <= newI < rows and 0 <= newJ < columns and mat[newI][newJ] == -1:
+                    mat[newI][newJ] = mat[i][j] + 1
+                    queue.append([newI, newJ])
+        return mat
