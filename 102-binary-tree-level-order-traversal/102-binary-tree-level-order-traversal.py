@@ -12,22 +12,18 @@ class Solution:
         queue = deque([root])
         result = []
         while queue:
-            # log the entire level
-            currLayer = []
-            nextLayer = []
-            while queue:
+            layerLength = len(queue)
+            layer = []
+            for i in range(layerLength):
                 currNode = queue.popleft()
-                
+                layer.append(currNode.val)
                 # append children
                 if currNode.left:
-                    nextLayer.append(currNode.left)
+                    queue.append(currNode.left)
                 if currNode.right:
-                    nextLayer.append(currNode.right)
+                    queue.append(currNode.right)
                 
-                currLayer.append(currNode.val)
-            result.append(currLayer)
-            for node in nextLayer:
-                queue.append(node)
+            result.append(layer)
         return result
                 
             
