@@ -8,7 +8,7 @@ class Node:
 from collections import deque
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
-        method = "iDFS"
+        method = "rDFS"
         if method == "iBFS":
             return self.iBFS(node)
         elif method == "iDFS":
@@ -54,7 +54,27 @@ class Solution:
         return visited[node]
     
     def rDFS(self, node: 'Node') -> 'Node':
-        pass
+        visited = {}
+        
+        def recurse(node):
+            nonlocal visited
+            
+            if not node:
+                return None
+            
+            if node in visited:
+                return visited[node]
+            
+            visited[node] = Node(node.val)
+            
+            for neighbor in node.neighbors:
+                visited[node].neighbors.append(recurse(neighbor))
+                
+            return visited[node]
+        
+        return recurse(node)
+            
+        
     
 
     
