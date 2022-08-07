@@ -7,7 +7,7 @@ class Solution:
         for (x, y) in points:
             dist = -(x ** 2 + y ** 2)
             
-            if len(list(maxHeap)) == k:
+            if len(maxHeap) == k:
                 heapq.heappushpop(maxHeap, (dist, x, y))
             else:
                 heapq.heappush(maxHeap, (dist, x, y))
