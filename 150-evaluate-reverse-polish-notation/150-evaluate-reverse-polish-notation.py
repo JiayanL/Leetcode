@@ -10,7 +10,7 @@ class Solution:
                 if t == "+":
                     stack.append(l + r)
                 elif t == "/":
-                    stack.append(int(float(l)/r))
+                    stack.append(int(l/r))
                 elif t == "-":
                     stack.append(l - r)
                 elif t == "*":
