@@ -6,10 +6,14 @@ class Solution:
         
         minRooms = 0
         minHeap = []
-        for meeting in intervals:
+        
+        # append the end time of the first meeting
+        heappush(minHeap, intervals[0][1])
+        
+        for meeting in intervals[1:]:
             # clear out all rooms before
-            while (len(minHeap) > 0) and meeting[0] >= minHeap[0]:
-                heappop(minHeap)
-            heappush(minHeap, meeting[1])
-            minRooms = max(minRooms, len(minHeap))
-        return minRooms
+            if minHeap[0] <= meeting[0]:
+                heappushpop(minHeap, meeting[1])
+            else:
+                heappush(minHeap, meeting[1])
+        return len(minHeap)
