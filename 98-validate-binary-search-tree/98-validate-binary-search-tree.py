@@ -5,21 +5,19 @@
 #         self.left = left
 #         self.right = right
 
-# top down
+# Insight: maintain high low of each branch
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-
-        return (self.isValid(root))
+        # DFS iterative
         
-    def isValid(self, node, low=-math.inf, high=math.inf) -> bool:
-        # if I've reached the end, it's balanced
-        if not node:
-            return True
+        stack = [(root, -math.inf, math.inf)]
+        while stack:
+            node, low, high = stack.pop()
+            if not node:
+                continue
+            if not low < node.val < high:
+                return False
+            stack.append((node.left, low, node.val))
+            stack.append((node.right, node.val, high))
+        return True
         
-        # check that my node is between the low and highs for this part of the branch
-        if not low < node.val < high:
-            return False
-        
-        # adjust limits - when I move left, the new high is current val
-        # when I move right, the new low, is current low
-        return (self.isValid(node.left, low, node.val) and self.isValid(node.right, node.val, high))
