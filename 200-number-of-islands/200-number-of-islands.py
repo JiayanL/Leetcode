@@ -1,36 +1,29 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        # edge cases - empty grid
+        islandCount = 0
+        
         if not grid:
-            return 0
-        count = 0
-        # bfs
-        # visit every point in the grid
-        for y in range(len(grid)):
-            for x in range(len(grid[y])):
-                if grid[y][x] == "1":
-                    grid[y][x] = 0
-                    count += 1
-                    self.bfs(grid, [y,x])
-                    
-        return count
+            return islandCount
+        
+        rows = len(grid)
+        columns = len(grid[0])
+        
+        for i in range(rows):
+            for j in range(columns):
+                if grid[i][j] == "1":
+                    grid[i][j] = "#"
+                    islandCount += 1
+                    self.bfs(grid, i, j)
+        return islandCount
     
-    def bfs(self, grid, coords) -> None:
-        # create a queue
-        queue = collections.deque([coords])
-        # add all points around it
+    def bfs(self, grid: List[List[str]], i: int, j: int) -> None:
+        queue = collections.deque([(i, j)])
+        d = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        
         while queue:
-            y, x = queue.popleft()
-            for i, j in [[y + 1, x], [y - 1, x], [y, x + 1], [y, x - 1]]:
-                if 0<=i<len(grid) and 0<=j<len(grid[i]) and grid[i][j] == "1":
-                    queue.append([i,j])
-                    grid[i][j] = 0
-            
-                
-        
-#     def dfs_iterative(self, grid, coords) -> None:
-#         pass
-    
-#     def dfs_recursive(self, grid, coords) -> None:
-#         pass
-        
+            i, j = queue.popleft()
+            for dX, dY in d:
+                newX, newY = i + dX, j + dY
+                if 0 <= newX < len(grid) and 0 <= newY < len(grid[0]) and grid[newX][newY] == "1":              
+                    grid[newX][newY] = "#"
+                    queue.append((newX, newY))
