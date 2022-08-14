@@ -1,32 +1,30 @@
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        # init
-        n = len(nums)
-        if n == 0: 
-            return 1
-        i, j = 0, n -1
+        l, r = 0, len(nums) - 1
         
-        # modified binary search
-        while i <= j:
-
-            # binary search
-            mid = i + (j - i) // 2
-            print(mid)
-            if nums[mid] == target: 
+        while l <= r:
+            mid = l + (r - l) // 2
+            
+            if nums[mid] == target:
                 return mid
             
+            # find the half that is sorted
             
-            # check if left is sorted
-            if nums[mid] >= nums[i]:
-                # check if target is in left
-                if target >= nums[i] and target < nums[mid]:
-                    j = mid - 1
+            # check if left half is sorted
+            if nums[l] <= nums[mid]:
+                # check if the target is in the left half
+                if nums[l] <= target < nums[mid]:
+                    r = mid - 1
+                # target is in right half
                 else:
-                    i = mid + 1
-            else:
-                # check if target is in right
-                if target > nums[mid] and target <= nums[j]:
-                    i = mid + 1
+                    l = mid + 1
+            # check if right half is sorted
+            elif nums[r] >= nums[mid]:
+                # check if target is in right half
+                if nums[r] >= target > nums[mid]:
+                    l = mid + 1
+                # target is in left half
                 else:
-                    j = mid - 1
+                    r = mid - 1
+    
         return -1
