@@ -7,7 +7,7 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        return self.recursive(root, p, q)
+        return self.iterative(root, p, q)
     
     def recursive(self, root, p, q):
         '''
@@ -32,4 +32,31 @@ class Solution:
             return left_search or right_search
         
     def iterative(self, root, p, q):
-        pass
+        # keep track of parents and compare
+        if not root:
+            return None
+        
+        stack = [root]
+        parents = {root: None}
+        ancestors = set()
+        while p not in parents or q not in parents:
+            node = stack.pop()
+            
+            if node.left:
+                parents[node.left] = node
+                stack.append(node.left)
+            if node.right:
+                parents[node.right] = node
+                stack.append(node.right)
+            
+        # add p and p's parents to an ancestors
+        while p:
+            # just in case p is an ancestor
+            ancestors.add(p)
+            p = parents[p]
+        # the first ancestor I see will be the right on
+        # this checks if q is an ancestor
+        while q not in ancestors:
+            q = parents[q]
+        return q
+                
