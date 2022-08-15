@@ -23,7 +23,7 @@ class Solution:
             
         # reverse the second half of next and keep a pointer to the start of it
         reversed_head = self.reverse(slow)
-        reversed_head_copy = reversed_head
+        # reversed_head_copy = reversed_head
         
         while head and reversed_head:
             if head.val != reversed_head.val:
@@ -32,7 +32,7 @@ class Solution:
             reversed_head = reversed_head.next
             
         # I've reached the end
-        self.reverse(reversed_head_copy)
+        # self.reverse(reversed_head_copy)
         if slow is None or reversed_head is None:
             return True
         return False
