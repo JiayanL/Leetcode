@@ -39,7 +39,7 @@ class Solution:
         stack = [root]
         parents = {root: None}
         ancestors = set()
-        while p not in parents or q not in parents:
+        while not (p in parents and q in parents):
             node = stack.pop()
             
             if node.left:
