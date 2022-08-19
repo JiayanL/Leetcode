@@ -3,16 +3,16 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        low, high = 0, len(arr) - 1
-        i = 0
+        low, high, i = 0, len(arr) - 1, 0
         
         while (i <= high):
             if arr[i] == 0:
-                arr[i], arr[low] = arr[low], arr[i]
+                arr[low], arr[i] = arr[i], arr[low]
                 i += 1
                 low += 1
             elif arr[i] == 1:
                 i += 1
             elif arr[i] == 2:
-                arr[i], arr[high] = arr[high], arr[i]
+                arr[high], arr[i] = arr[i], arr[high]
                 high -= 1
+            # print(arr)
