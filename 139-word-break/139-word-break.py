@@ -34,4 +34,5 @@ class Solution:
                 # check if I've reached a new word
                 if curr.isWord and dp[j]:
                     dp[i] = True
+                    break
         return dp[0]
