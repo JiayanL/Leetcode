@@ -1,40 +1,34 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        def canPartitionAtIndex(current_index, remaining_sum):
-            nonlocal dp
-            # base case
-            if remaining_sum == 0:
-                return 1
-            
-            # check that our index is still valid
-            if len(nums) == 0 or current_index >= len(nums):
-                return 0
-            
-            # check that I've done the work
-            if dp[current_index][remaining_sum] == -1:
-                
-                # include the current_index
-                if nums[current_index] <= remaining_sum:
-                    if canPartitionAtIndex(current_index + 1, remaining_sum - nums[current_index]) == 1:
-                        dp[current_index][remaining_sum] = 1
-                        # cut short the next calculation
-                        return 1
-                
-                # don't include the current index
-                dp[current_index][remaining_sum] = canPartitionAtIndex(current_index + 1, remaining_sum)
-            
-            return dp[current_index][remaining_sum]
-        
-        # top down dynamic programming
+        # bottom up
+        # check if we can make a partition with the first i numbers
         s = sum(nums)
         
         # check if even
         if s % 2 != 0:
             return False
         
-        # memoization based on capacity and the current index
+        # memoization based on sum and the current index
         # -1 default, 1 true, 0 false
-        dp = [[-1 for _ in range(int(s/2) + 1)] for _ in range(len(nums))]
+        dp = [[False for _ in range(int(s/2) + 1)] for _ in range(len(nums))]
         
-        return True if canPartitionAtIndex(0, int(s/2)) == 1 else False
+        # populate 0s
+        for i in range(len(nums)):
+            dp[i][0] = True
+            
+        # populate the first number
+        for i in range(1, (int(s/2) + 1)):
+            dp[0][i] = nums[0] == i
         
+        # process all subsets for all sums
+        for i in range(1, len(nums)):
+            for j in range(1, int(s/2) + 1):
+                # check if we've already made the partition (exclude)
+                if dp[i - 1][j]:
+                    dp[i][j] = dp[i-1][j]
+                # check if we can get a partition by including
+                # make sure that the sum is bigger than our current num
+                elif j >= nums[i]:
+                    # previous stage, previous capacity
+                    dp[i][j] = dp[i-1][j-nums[i]]
+        return dp[len(nums) - 1][int(s/2)]
