@@ -1,16 +1,14 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        subsets = [[]]
-        
-        # go to each number
-        # append each number to subsets
-        for num in nums:
-            # take all elements in subsets currently
-            copy = subsets.copy()
-            
-            # append current element to each element in subsets and add
-            for subset in copy:
-                subset_copy = subset.copy()
-                subset_copy.append(num)
-                subsets.append(subset_copy)
+        subsets = []
+        self.dfs_backtracking(subsets, nums, [], 0)
         return subsets
+    
+    def dfs_backtracking(self, result, nums, path, index):
+        result.append(list(path))
+        for i in range(index, len(nums)):
+            path.append(nums[i])
+            self.dfs_backtracking(result, nums, path, i + 1)
+            path.pop()
+        
+        
