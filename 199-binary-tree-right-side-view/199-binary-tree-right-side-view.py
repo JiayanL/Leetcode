@@ -8,6 +8,7 @@ class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         if not root:
             return []
+        
         # run layer by layer bfs
         result = []
         layer = collections.deque([root])
