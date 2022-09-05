@@ -1,12 +1,8 @@
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        @cache
-        def dp(i, j):
-            if i >= m or j >= n:
-                return 0
-            if i == m - 1 and j == n - 1:
-                return 1
-            
-            return dp(i + 1, j) + dp(i, j + 1)
+        # bottom up
+        dp = [[1 for _ in range(n)] for _ in range(m)]
         
-        return dp(0, 0)
+        for i, j in product(range(1, m), range(1, n)):
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+        return dp[-1][-1]
