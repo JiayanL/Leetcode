@@ -10,20 +10,19 @@ class Solution:
             8: ['t', 'u', 'v'],
             9: ['w', 'x', 'y', 'z']
         }
+        def backtrack(index, path):
+            if len(path) == len(digits):
+                # I've reached the end
+                combinations.append("".join(path))
+                return
+        
+            for letter in digit_to_letters[int(digits[index])]:
+                path.append(letter)
+                backtrack(index + 1, path)
+                path.pop()
+        
         if len(digits) == 0:
             return []
-        results = self.processDigits([""], digit_to_letters, digits)
-        return results
-        
-    def processDigits(self, results, digit_to_letters, digits: str) -> None:
-        if len(digits) == 0:
-            return results
-        
-        nextDigit = []
-        for current_combination in results:
-            for char in digit_to_letters[int(digits[0])]:
-                new_combination = current_combination + char
-                nextDigit.append(new_combination)
-        results = nextDigit
-        
-        return self.processDigits(results, digit_to_letters, digits[1:])
+        combinations = []
+        backtrack(0, [])
+        return combinations
