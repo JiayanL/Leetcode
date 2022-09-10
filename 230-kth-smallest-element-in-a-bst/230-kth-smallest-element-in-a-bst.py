@@ -7,11 +7,15 @@
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
         '''
-        build inorder traversal recursively
+        build inorder traversal iteratively
         '''
-        def inorder(root):
-            if not root:
-                return []
-            return inorder(root.left) + [root.val] + inorder(root.right)
-        
-        return inorder(root)[k - 1]
+        stack = []
+        while stack or root:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            k -= 1
+            if k == 0:
+                return root.val
+            root = root.right
