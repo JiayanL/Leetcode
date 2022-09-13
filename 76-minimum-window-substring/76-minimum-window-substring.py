@@ -4,8 +4,8 @@ class Solution:
         chars_in_t = collections.Counter(t)
         matched_chars = len(chars_in_t)
         
-        min_window_length = float(inf)
-        min_window_start = 0
+        min_window_length = len(s) + 1
+        result = ""
         
         window_start = 0
         
@@ -23,7 +23,7 @@ class Solution:
                 window_length = window_end - window_start + 1
                 if window_length < min_window_length:
                     min_window_length = window_length
-                    min_window_start = window_start
+                    result = s[window_start:window_end + 1]
 
                 start_char = s[window_start]
                 if start_char in chars_in_t:
@@ -32,7 +32,4 @@ class Solution:
                     chars_in_t[start_char] += 1
                 window_start += 1
                     
-    
-        if min_window_length == float(inf):
-            return ""
-        return s[min_window_start: min_window_start + min_window_length]
+        return result
