@@ -6,25 +6,29 @@
 #         self.right = right
 class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
-        # O(n^2) -> DFS, check targetSum
-        return self.dfs_findPath(root, targetSum, [])
+        # O(n) -> prefix sum    
+        prefix_sum = {}
+        return self.dfs_findPathSum(root, targetSum, prefix_sum, 0)
     
-    def dfs_findPath(self, node, targetSum, path):
-        if not node:
+    def dfs_findPathSum(self, root, targetSum, prefix_sum, current_sum):
+        if not root:
             return 0
         
-        path.append(node.val)
-        current_path_sum = 0
         pathCount = 0
-        
-        for i in range(len(path) - 1, -1, -1):
-            curr = path[i]
-            current_path_sum += curr
-            if current_path_sum == targetSum:
-                pathCount += 1
+        current_sum += root.val
+        # case 1: I have the sum
+        if current_sum == targetSum:
+            pathCount += 1
             
-        pathCount += self.dfs_findPath(node.left, targetSum, path)
-        pathCount += self.dfs_findPath(node.right, targetSum, path)
+        # case 2: current_sum - targetSum exists along this path]
+        pathCount += prefix_sum.get(current_sum - targetSum, 0)
         
-        path.pop()
+        # add prefix to array
+        prefix_sum[current_sum] = prefix_sum.get(current_sum, 0) + 1
+        
+        pathCount += self.dfs_findPathSum(root.left, targetSum, prefix_sum, current_sum) + \
+        self.dfs_findPathSum(root.right, targetSum, prefix_sum, current_sum)
+        
+        prefix_sum[current_sum] = prefix_sum.get(current_sum, 1) - 1
+        
         return pathCount
